@@ -7,15 +7,24 @@ public class OrderDetails {
 	    private long id;
 	    private long productId;
 	    private double price;
-	    private int quantity;
+	    private long vendorId;
+	    public long getVendorId() {
+			return vendorId;
+		}
+		public void setVendorId(long vendorId) {
+			this.vendorId = vendorId;
+		}
+		private int quantity;
 	    public OrderDetails() {
 		
 		}
-		public OrderDetails(long id, long productId, double price, int quantity) {
+		
+		public OrderDetails(long id, long productId, double price, long vendorId, int quantity) {
 			super();
 			this.id = id;
 			this.productId = productId;
 			this.price = price;
+			this.vendorId = vendorId;
 			this.quantity = quantity;
 		}
 		public long getId() {

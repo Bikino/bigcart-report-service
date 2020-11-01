@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class Order {
 	private long id;
-    private long userId;
+    private String user;
     private double totalAmount;
     private long addressId;
     private long paymentId;
@@ -16,11 +16,11 @@ public class Order {
     public Order() {
 		
 	}
-	public Order(long id, long userId, double totalAmount, long addressId, long paymentId, LocalDate creationDate,
+	public Order(long id, String user, double totalAmount, long addressId, long paymentId, LocalDate creationDate,
 			Set<OrderDetail> orderDetails) {
 		super();
 		this.id = id;
-		this.userId = userId;
+		this.user = user;
 		this.totalAmount = totalAmount;
 		this.addressId = addressId;
 		this.paymentId = paymentId;
@@ -33,11 +33,11 @@ public class Order {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public long getUserId() {
-		return userId;
+	public String getUser() {
+		return user;
 	}
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setUser(String user) {
+		this.user = user;
 	}
 	public double getTotalAmount() {
 		return totalAmount;

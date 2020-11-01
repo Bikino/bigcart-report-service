@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,10 +25,37 @@ public class OrderReportController {
 	private OrderReportService OrderReportService;
 
 	@GetMapping("/report")
-	public void empReport(HttpServletResponse response) {
+	public void OrderReport(HttpServletResponse response) {
 
 		try {
 			 OrderReportService.generateReport(response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@GetMapping("/vendor/{vendorId}")
+	public void OrderByVendorReport(HttpServletResponse response,@PathVariable Long vendorId) {
+
+		try {
+			 OrderReportService.generateReportByVendor(response,vendorId);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@GetMapping("/category/{categoryId}")
+	public void OrderByCategoryReport(HttpServletResponse response,@PathVariable int categoryId) {
+
+		try {
+			 OrderReportService.generateReportByCategory(response,categoryId);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

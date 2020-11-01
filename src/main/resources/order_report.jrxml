@@ -12,8 +12,8 @@
 	<field name="id" class="java.lang.Long">
 		<fieldDescription><![CDATA[id]]></fieldDescription>
 	</field>
-	<field name="userId" class="java.lang.Long">
-		<fieldDescription><![CDATA[userId]]></fieldDescription>
+	<field name="user" class="java.lang.String">
+		<fieldDescription><![CDATA[user]]></fieldDescription>
 	</field>
 	<field name="totalAmount" class="java.lang.Double">
 		<fieldDescription><![CDATA[totalAmount]]></fieldDescription>
@@ -72,7 +72,7 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[UserID]]></text>
+				<text><![CDATA[User]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="222" y="41" width="111" height="20"/>
@@ -159,7 +159,7 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{userId}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{user}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="222" y="0" width="111" height="20"/>

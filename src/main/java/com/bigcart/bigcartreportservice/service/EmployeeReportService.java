@@ -87,4 +87,60 @@ for(int i = 0;i<data.size();i++) {
 		
 		
 	}
+
+
+	
+	public HttpServletResponse generateReportByVendor(HttpServletResponse response)throws IOException, JRException {
+		restTemplate = new RestTemplate();
+		ResponseEntity<List<EmployeeDTO>>  resp = restTemplate.exchange("http://localhost:9988/employee/",
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<EmployeeDTO>>() {});
+List<EmployeeDTO> data = resp.getBody();
+List<Employee> empList  = new ArrayList<Employee>();
+
+for(int i = 0;i<data.size();i++) {
+	EmployeeDTO d = data.get(i);
+	Employee n = new Employee(d.getId(),d.getFirstName(),d.getLastName(), d.getEmail(), d.getSalary());
+	empList .add(n);
+}
+
+	//  prodList = Arrays.asList(
+			//new Product(1, "Youssoupha",1, "Mar", "Front-end Developer", true));
+
+       // String resp = restTemplate.exchange("http://student-service/getStudentDetailsForSchool/{schoolname}",
+                              //  HttpMethod.GET, null, new ParameterizedTypeReference<String>() {}, schoolname).getBody();
+
+			String reportPath = "src/main/resources/";
+
+			// Compile the Jasper report from .jrxml to .japser
+			JasperReport jasperReport = JasperCompileManager.compileReport("src/main/resources/employee-rpt.jrxml");
+
+			// Get your data source
+			JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(empList);
+
+			// Add parameters
+			Map<String, Object> parameters = new HashMap<>();
+
+			parameters.put("createdBy", "team4.org");
+			
+
+			// Fill the report
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,
+					jrBeanCollectionDataSource);
+
+			// Export the report to a PDF file
+			//JasperExportManager.exportReportToPdfFile(jasperPrint,reportPath+"/Emp-Rpt.pdf");
+			
+			JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+			response.setContentType("application/pdf");
+			response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
+
+			System.out.println("Done");
+
+			//return "Report successfully generated @path= " + reportPath;
+            return response;
+		
+		
+	}
+	
+
 }
