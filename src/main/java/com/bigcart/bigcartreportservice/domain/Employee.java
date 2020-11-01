@@ -4,57 +4,52 @@ public class Employee {
 	
 	// Generate Getters and Setters...
 	private int id;
+
+	private String firstname;
+	private String lastname;
+	private String email;
+	private double salary;
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getName() {
-		return name;
+	public String getFirstname() {
+		return firstname;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
-
-	public String getOrganization() {
-		return organization;
+	public String getLastname() {
+		return lastname;
 	}
-
-	public void setOrganization(String organization) {
-		this.organization = organization;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
-
-	public String getDesignation() {
-		return designation;
+	public String getEmail() {
+		return email;
 	}
-
-	public void setDesignation(String designation) {
-		this.designation = designation;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-
-	public int getSalary() {
+	public double getSalary() {
 		return salary;
 	}
-
-	public void setSalary(int salary) {
+	public void setSalary(double salary) {
 		this.salary = salary;
 	}
-
-	private String name;
-	private String organization;
-	private String designation;
-	private int salary;
-
-	public Employee(int id, String name, String oraganization, String designation, int salary) {
+	public Employee(int id, String firstname, String lastname, String email, double salary) {
 		super();
 		this.id = id;
-		this.name = name;
-		this.organization = oraganization;
-		this.designation = designation;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
 		this.salary = salary;
 	}
+	public Employee() {
+		super();
+	}
+
+	
 }

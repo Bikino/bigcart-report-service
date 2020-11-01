@@ -1,29 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="employee-rpt" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="order_report" pageWidth="706" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="471f9851-1ba3-4e0d-a5cc-dad979eabc91">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="createdBy" class="java.lang.String"/>
-	<field name="id" class="java.lang.Integer"/>
-	<field name="firstname" class="java.lang.String"/>
-	<field name="lastname" class="java.lang.String"/>
-	<field name="email" class="java.lang.String"/>
-	<field name="salary" class="java.lang.Double"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["src/main/resources/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="userId" class="java.lang.Long">
+		<fieldDescription><![CDATA[userId]]></fieldDescription>
+	</field>
+	<field name="totalAmount" class="java.lang.Double">
+		<fieldDescription><![CDATA[totalAmount]]></fieldDescription>
+	</field>
+	<field name="addressId" class="java.lang.Long">
+		<fieldDescription><![CDATA[addressId]]></fieldDescription>
+	</field>
+	<field name="paymentId" class="java.lang.Long">
+		<fieldDescription><![CDATA[paymentId]]></fieldDescription>
+	</field>
+	<field name="creationDate" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[creationDate]]></fieldDescription>
+	</field>
+	<field name="orderDetails" class="java.util.Set">
+		<fieldDescription><![CDATA[orderDetails]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
+		<title>
 		<band height="42" splitType="Stretch">
 			<staticText>
-				<reportElement x="64" y="0" width="481" height="42"/>
+				<reportElement x="84" y="0" width="481" height="42"/>
 				<textElement textAlignment="Center">
 					<font size="20" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Employee Details]]></text>
+				<text><![CDATA[List of Orders]]></text>
 			</staticText>
 		</band>
 	</title>
-	<columnHeader>
+		<columnHeader>
 		<band height="61" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="41" width="111" height="20"/>
@@ -51,7 +72,7 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[FirstName]]></text>
+				<text><![CDATA[UserID]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="222" y="41" width="111" height="20"/>
@@ -65,7 +86,7 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[LastName]]></text>
+				<text><![CDATA[TotalAmount]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="333" y="41" width="111" height="20"/>
@@ -79,7 +100,7 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[Email Address]]></text>
+				<text><![CDATA[AddressId]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="444" y="41" width="111" height="20"/>
@@ -93,22 +114,29 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[Salary]]></text>
+				<text><![CDATA[paymentId]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="456" y="21" width="99" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$P{createdBy}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="398" y="21" width="58" height="20"/>
-				<textElement/>
-				<text><![CDATA[Created By:]]></text>
+				<reportElement x="555" y="41" width="111" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[creationDate]]></text>
 			</staticText>
-		</band>
+			
+			
+			
+			</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="70" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="111" height="20"/>
 				<box>
@@ -131,7 +159,7 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{firstname}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{userId}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="222" y="0" width="111" height="20"/>
@@ -143,7 +171,7 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{lastname}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{totalAmount}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="333" y="0" width="111" height="20"/>
@@ -155,7 +183,7 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{addressId}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="444" y="0" width="111" height="20"/>
@@ -167,8 +195,25 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{salary}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{paymentId}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="555" y="0" width="111" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{creationDate}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="65" y="24" width="555" height="43" uuid="1bc6036c-0521-4739-b8c2-6df9a2d04332"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{orderDetails})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "orderDetail_subreport.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 </jasperReport>
