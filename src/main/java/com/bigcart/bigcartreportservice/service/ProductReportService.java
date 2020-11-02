@@ -69,6 +69,7 @@ public class ProductReportService  {
 			//JasperExportManager.exportReportToPdfFile(jasperPrint,reportPath+"/Emp-Rpt.pdf");
 			
 			JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+			
 			response.setContentType("application/pdf");
 			response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
 
