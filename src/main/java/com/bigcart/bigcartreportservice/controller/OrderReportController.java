@@ -37,6 +37,19 @@ public class OrderReportController {
 			e.printStackTrace();
 		}
 	}
+	@GetMapping("/receipt/{id}")
+	public void OrderReceipt(HttpServletResponse response,@PathVariable Long id) {
+
+		try {
+			 OrderReportService.generateReceipt(response, id);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@GetMapping("/vendor/{vendorId}")
 	public void OrderByVendorReport(HttpServletResponse response,@PathVariable Long vendorId) {
 

@@ -434,6 +434,115 @@ public class OrderReportService {
          System.out.println("End");
          return response;
          }
-     
+    
+	public HttpServletResponse generateReceipt(HttpServletResponse response,long idUser)throws IOException, JRException {
+		restTemplate = new RestTemplate();
+		
+		jrxmlFiles[0] = "order_receip";
+		jrxmlFiles[1] = "orderDetail_subreceip";
+		
+		
+		System.out.println("Begining");
+		ResponseEntity<List<Orders>>  resp = restTemplate.exchange("http://localhost:8000/order/userOrders/"+idUser,
+	                             HttpMethod.GET, null, new ParameterizedTypeReference<List<Orders>>() {});
+			List<Orders> dataSource ;
+		
+			
+					//  prodList = Arrays.asList(
+							//new Product(1, "Youssoupha",1, "Mar", "Front-end Developer", true));
+			dataSource  = resp.getBody();
+			List<Order> datadest = new ArrayList<Order>();
+	
+			for(int i= 0;i< dataSource.size();i++) {
+				Orders o = dataSource.get(i);
+				Set<OrderDetail> setdest = new HashSet<OrderDetail>();
+				Set<OrderDetails> setofod = o.getOrderDetails();
+				Iterator<OrderDetails> it = setofod.iterator();
+				while(it.hasNext()) {
+					OrderDetails od = it.next();
+					long id = od.getProductId();
+					ResponseEntity<Product>  res = restTemplate.exchange("http://localhost:8001/product/"+id,
+                            HttpMethod.GET, null, new ParameterizedTypeReference<Product>() {});
+		            Product prod=res.getBody();
+	
+		            String name = prod.getName();
+		            System.out.println("ProductName "+name);
+		            OrderDetail ord= new OrderDetail(od.getId(), name, od.getPrice(), od.getQuantity());
+				setdest.add(ord);
+		            //  prodList = Arrays.asList(
+						//new Product(1, "Youssoupha",1, "Mar", "Front-end Developer", true));
+		
+				}
+				System.out.println("Before");
+				ResponseEntity<BuyerDTO>  residUser;
+				try {
+				residUser = restTemplate.exchange("http://localhost:9988/buyer/"+o.getUserId(),
+                        HttpMethod.GET, null, new ParameterizedTypeReference<BuyerDTO>() {});
+				}
+				catch(HttpClientErrorException.NotFound ex){
+					residUser = null;
+				}
+				System.out.println("After");
+	            Order orderdest;
+				if(residUser!=null) {
+					System.out.println("No error");
+					BuyerDTO buyer=residUser.getBody();
+				orderdest = new Order(o.getId(), buyer.getFirstName()+" "+buyer.getLastName(),o.getTotalAmount(), o.getAddressId(),o.getPaymentId(),o.getCreationDate(), setdest);
+				}
+				else {
+					 orderdest = new Order(o.getId(),"",o.getTotalAmount(), o.getAddressId(),o.getPaymentId(),o.getCreationDate(), setdest);
+					 System.out.println("Error");
+				}
+				datadest.add(orderdest);
+			}
+			
+         //Parameters for pass to report
+         HashMap<String,Object> parameters = new HashMap<String,Object>();
+         //Organize datasource
+     	
+ 
+         JRBeanCollectionDataSource beanDataSource = new JRBeanCollectionDataSource(datadest);
+         //Compile jrxml to jasper-files.
+         FileInputStream mainReportFile = null;
+      
+         boolean result = false;
+         String jdn = "src/main/resources/";
+         String s,o;
+         File outf;
+         
+             for (String rep: jrxmlFiles){
+            	 System.out.println("MMMMX");
+                 s = reportsDirName+"/"+rep+".jrxml";
+                 o = jdn+"/"+rep+".jasper";
+                 System.out.println("XXXXXX");
+                 JasperCompileManager.compileReportToFile(s, o);
+                 System.out.println("TTTTTT");
+                 outf = new File(o);
+                 System.out.println("GGGG");
+                 
+             }
+         
+        	
+         //If you haven't plans to compile jrxml scip this call. Alternate
+         //way to create a mainReportFile
+         //import net.sf.jasperreports.engine.design.JasperDesign mainDesign = JRXmlLoader.load("/path/to/jrxml");
+         //JasperReport mainReportFile = JasperCompileManager.compileReport(mainDesign);
+             System.out.println("MAAAAAAAAAR");
+                 String ss = "src/main/resources/"+"/"+jrxmlFiles[0]+".jasper";
+                 mainReportFile = new FileInputStream(ss);
+                 //pass directory with jasper-files as parameters
+                 parameters.put("SUBREPORT_DIR", "src/main/resources/"+"/");
+                 //Fill report and view report.
+                 jasperPrint = JasperFillManager.fillReport(mainReportFile, parameters, beanDataSource);
+                 JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+                 JasperViewer.viewReport(jasperPrint);
+                 response.setContentType("application/pdf");
+     			response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
+     			 
+             
+         System.out.println("End");
+         return response;
+         }
+	
 
 }
