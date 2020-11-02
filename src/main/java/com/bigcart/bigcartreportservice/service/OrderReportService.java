@@ -16,6 +16,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.bigcart.bigcartreportservice.domain.BuyerDTO;
@@ -110,15 +111,25 @@ public class OrderReportService {
 						//new Product(1, "Youssoupha",1, "Mar", "Front-end Developer", true));
 		
 				}
-				ResponseEntity<BuyerDTO>  residUser = restTemplate.exchange("http://localhost:9988/buyer/"+o.getUserId(),
+				System.out.println("Before");
+				ResponseEntity<BuyerDTO>  residUser;
+				try {
+				residUser = restTemplate.exchange("http://localhost:9988/buyer/"+o.getUserId(),
                         HttpMethod.GET, null, new ParameterizedTypeReference<BuyerDTO>() {});
-	            BuyerDTO buyer=residUser.getBody();
+				}
+				catch(HttpClientErrorException.NotFound ex){
+					residUser = null;
+				}
+				System.out.println("After");
 	            Order orderdest;
-				if(buyer!=null) {
+				if(residUser!=null) {
+					System.out.println("No error");
+					BuyerDTO buyer=residUser.getBody();
 				orderdest = new Order(o.getId(), buyer.getFirstName()+" "+buyer.getLastName(),o.getTotalAmount(), o.getAddressId(),o.getPaymentId(),o.getCreationDate(), setdest);
 				}
 				else {
 					 orderdest = new Order(o.getId(),"",o.getTotalAmount(), o.getAddressId(),o.getPaymentId(),o.getCreationDate(), setdest);
+					 System.out.println("Error");
 				}
 				datadest.add(orderdest);
 			}
@@ -207,15 +218,24 @@ public class OrderReportService {
 						//new Product(1, "Youssoupha",1, "Mar", "Front-end Developer", true));
 		
 				}
-				ResponseEntity<BuyerDTO>  residUser = restTemplate.exchange("http://localhost:9988/buyer/"+o.getUserId(),
+				ResponseEntity<BuyerDTO>  residUser;
+				try {
+				residUser = restTemplate.exchange("http://localhost:9988/buyer/"+o.getUserId(),
                         HttpMethod.GET, null, new ParameterizedTypeReference<BuyerDTO>() {});
-	            BuyerDTO buyer=residUser.getBody();
+				}
+				catch(HttpClientErrorException.NotFound ex){
+					residUser = null;
+				}
+				System.out.println("After");
 	            Order orderdest;
-				if(buyer!=null) {
+				if(residUser!=null) {
+					System.out.println("No error");
+					BuyerDTO buyer=residUser.getBody();
 				orderdest = new Order(o.getId(), buyer.getFirstName()+" "+buyer.getLastName(),o.getTotalAmount(), o.getAddressId(),o.getPaymentId(),o.getCreationDate(), setdest);
 				}
 				else {
 					 orderdest = new Order(o.getId(),"",o.getTotalAmount(), o.getAddressId(),o.getPaymentId(),o.getCreationDate(), setdest);
+					 System.out.println("Error");
 				}
 				datadest.add(orderdest);
 			}
@@ -345,15 +365,24 @@ public class OrderReportService {
 						//new Product(1, "Youssoupha",1, "Mar", "Front-end Developer", true));
 		
 				}
-				ResponseEntity<BuyerDTO>  residUser = restTemplate.exchange("http://localhost:9988/buyer/"+o.getUserId(),
+				ResponseEntity<BuyerDTO>  residUser;
+				try {
+				residUser = restTemplate.exchange("http://localhost:9988/buyer/"+o.getUserId(),
                         HttpMethod.GET, null, new ParameterizedTypeReference<BuyerDTO>() {});
-	            BuyerDTO buyer=residUser.getBody();
+				}
+				catch(HttpClientErrorException.NotFound ex){
+					residUser = null;
+				}
+				System.out.println("After");
 	            Order orderdest;
-				if(buyer!=null) {
+				if(residUser!=null) {
+					System.out.println("No error");
+					BuyerDTO buyer=residUser.getBody();
 				orderdest = new Order(o.getId(), buyer.getFirstName()+" "+buyer.getLastName(),o.getTotalAmount(), o.getAddressId(),o.getPaymentId(),o.getCreationDate(), setdest);
 				}
 				else {
 					 orderdest = new Order(o.getId(),"",o.getTotalAmount(), o.getAddressId(),o.getPaymentId(),o.getCreationDate(), setdest);
+					 System.out.println("Error");
 				}
 				datadest.add(orderdest);
 			}

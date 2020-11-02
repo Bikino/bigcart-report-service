@@ -1,9 +1,10 @@
 package com.bigcart.bigcartreportservice;
 
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.context.ConfigurableApplicationContext;
 
 
 
@@ -13,7 +14,11 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 public class BigcartReportServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BigcartReportServiceApplication.class, args);
+    	SpringApplicationBuilder builder = new SpringApplicationBuilder(BigcartReportServiceApplication.class);
+
+    	builder.headless(false);
+
+    	ConfigurableApplicationContext context = builder.run(args);
     }
  
 }
