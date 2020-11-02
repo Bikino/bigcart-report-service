@@ -1,5 +1,6 @@
 package com.bigcart.bigcartreportservice.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,7 +39,9 @@ public class ProductReportService  {
 	
 
 	public HttpServletResponse generateReport(HttpServletResponse response)throws IOException, JRException {
-
+		File currDir = new File(".");
+    	String path = currDir.getAbsolutePath();
+    	path = path.substring(0, path.length()-1);
 	 restTemplate = new RestTemplate();
 	ResponseEntity<List<Product>>  resp = restTemplate.exchange("http://localhost:8001/product/",
                              HttpMethod.GET, null, new ParameterizedTypeReference<List<Product>>() {});
@@ -48,9 +51,9 @@ public class ProductReportService  {
 				//  prodList = Arrays.asList(
 						//new Product(1, "Youssoupha",1, "Mar", "Front-end Developer", true));
 		prodList =resp.getBody();
-		String reportPath = "src/main/resources/";
+		String reportPath = path+"src/main/resources/";
 			// Compile the Jasper report from .jrxml to .japser
-			JasperReport jasperReport = JasperCompileManager.compileReport("src/main/resources/product-rpt.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(reportPath+"product-rpt.jrxml");
 
 			// Get your data source
 			JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(prodList);

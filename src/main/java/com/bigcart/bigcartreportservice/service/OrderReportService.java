@@ -42,42 +42,20 @@ public class OrderReportService {
 	 public static JasperPrint jasperPrint;
 	    public static JasperReport mainReport;
 
-	    final static String reportsDirName = "src/main/resources/";
+	     String reportsDirName = "src/main/resources/";
 	  
-	    final static String [] jrxmlFiles = {"order_report",
+	    String [] jrxmlFiles = {"order_report",
 	                                         "orderDetail_subreport"};
 
- public static boolean compileJRXML()throws IOException, JRException{
-	
-     /**
-      *  Compile all jrxml from reports to jasper and pur it to getJasperDir result.
-      */
-     boolean result = false;
-     String jdn = "src/main/resources/";
-     String s,o;
-     File outf;
-     
-         for (String rep: jrxmlFiles){
-        	 System.out.println("MMMMX");
-             s = reportsDirName+"/"+rep+".jrxml";
-             o = jdn+"/"+rep+".jasper";
-             System.out.println("XXXXXX");
-             JasperCompileManager.compileReportToFile(s, o);
-             System.out.println("TTTTTT");
-             outf = new File(o);
-             System.out.println("GGGG");
-             if (!outf.exists()) return false;
-         }
-     
-     result = true;
-    
-     return result;
- }
+
  
 	public HttpServletResponse generateReport(HttpServletResponse response)throws IOException, JRException {
 		restTemplate = new RestTemplate();
 		
-		
+		 File currDir = new File(".");
+		 	String path = currDir.getAbsolutePath();
+		 	path = path.substring(0, path.length()-1);
+		 	path = path+reportsDirName;
 		
 		
 		System.out.println("Begining");
@@ -144,13 +122,13 @@ public class OrderReportService {
          FileInputStream mainReportFile = null;
       
          boolean result = false;
-         String jdn = "src/main/resources/";
+         String jdn = path;
          String s,o;
          File outf;
          
              for (String rep: jrxmlFiles){
             	 System.out.println("MMMMX");
-                 s = reportsDirName+"/"+rep+".jrxml";
+                 s = path+"/"+rep+".jrxml";
                  o = jdn+"/"+rep+".jasper";
                  System.out.println("XXXXXX");
                  JasperCompileManager.compileReportToFile(s, o);
@@ -166,10 +144,10 @@ public class OrderReportService {
          //import net.sf.jasperreports.engine.design.JasperDesign mainDesign = JRXmlLoader.load("/path/to/jrxml");
          //JasperReport mainReportFile = JasperCompileManager.compileReport(mainDesign);
              System.out.println("MAAAAAAAAAR");
-                 String ss = "src/main/resources/"+"/"+jrxmlFiles[0]+".jasper";
+                 String ss = path+"/"+jrxmlFiles[0]+".jasper";
                  mainReportFile = new FileInputStream(ss);
                  //pass directory with jasper-files as parameters
-                 parameters.put("SUBREPORT_DIR", "src/main/resources/"+"/");
+                 parameters.put("SUBREPORT_DIR", path+"/");
                  //Fill report and view report.
                  jasperPrint = JasperFillManager.fillReport(mainReportFile, parameters, beanDataSource);
                  JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
@@ -184,7 +162,10 @@ public class OrderReportService {
 	public HttpServletResponse generateReportByVendor(HttpServletResponse response,long vendorId)throws IOException, JRException {
 		restTemplate = new RestTemplate();
 		
-		
+		File currDir = new File(".");
+	 	String path = currDir.getAbsolutePath();
+	 	path = path.substring(0, path.length()-1);
+	 	path = path+reportsDirName;
 		
 		
 		System.out.println("Begining");
@@ -250,13 +231,13 @@ public class OrderReportService {
          FileInputStream mainReportFile = null;
       
          boolean result = false;
-         String jdn = "src/main/resources/";
+         String jdn = path;
          String s,o;
          File outf;
          
              for (String rep: jrxmlFiles){
             	 System.out.println("MMMMX");
-                 s = reportsDirName+"/"+rep+".jrxml";
+                 s = path+"/"+rep+".jrxml";
                  o = jdn+"/"+rep+".jasper";
                  System.out.println("XXXXXX");
                  JasperCompileManager.compileReportToFile(s, o);
@@ -272,10 +253,10 @@ public class OrderReportService {
          //import net.sf.jasperreports.engine.design.JasperDesign mainDesign = JRXmlLoader.load("/path/to/jrxml");
          //JasperReport mainReportFile = JasperCompileManager.compileReport(mainDesign);
              System.out.println("MAAAAAAAAAR");
-                 String ss = "src/main/resources/"+"/"+jrxmlFiles[0]+".jasper";
+                 String ss = path+"/"+jrxmlFiles[0]+".jasper";
                  mainReportFile = new FileInputStream(ss);
                  //pass directory with jasper-files as parameters
-                 parameters.put("SUBREPORT_DIR", "src/main/resources/"+"/");
+                 parameters.put("SUBREPORT_DIR", path+"/");
                  //Fill report and view report.
                  jasperPrint = JasperFillManager.fillReport(mainReportFile, parameters, beanDataSource);
                  JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
@@ -292,7 +273,10 @@ public class OrderReportService {
 	public HttpServletResponse generateReportByCategory(HttpServletResponse response,int categoryId)throws IOException, JRException {
 		restTemplate = new RestTemplate();
 		
-		
+		File currDir = new File(".");
+	 	String path = currDir.getAbsolutePath();
+	 	path = path.substring(0, path.length()-1);
+	 	path = path+reportsDirName;
 		
 		
 		System.out.println("Begining");
@@ -397,13 +381,13 @@ public class OrderReportService {
          FileInputStream mainReportFile = null;
       
          boolean result = false;
-         String jdn = "src/main/resources/";
+         String jdn = path;
          String s,o;
          File outf;
          
              for (String rep: jrxmlFiles){
             	 System.out.println("MMMMX");
-                 s = reportsDirName+"/"+rep+".jrxml";
+                 s = path+"/"+rep+".jrxml";
                  o = jdn+"/"+rep+".jasper";
                  System.out.println("XXXXXX");
                  JasperCompileManager.compileReportToFile(s, o);
@@ -419,10 +403,10 @@ public class OrderReportService {
          //import net.sf.jasperreports.engine.design.JasperDesign mainDesign = JRXmlLoader.load("/path/to/jrxml");
          //JasperReport mainReportFile = JasperCompileManager.compileReport(mainDesign);
              System.out.println("MAAAAAAAAAR");
-                 String ss = "src/main/resources/"+"/"+jrxmlFiles[0]+".jasper";
+                 String ss = path+"/"+jrxmlFiles[0]+".jasper";
                  mainReportFile = new FileInputStream(ss);
                  //pass directory with jasper-files as parameters
-                 parameters.put("SUBREPORT_DIR", "src/main/resources/"+"/");
+                 parameters.put("SUBREPORT_DIR", path+"/");
                  //Fill report and view report.
                  jasperPrint = JasperFillManager.fillReport(mainReportFile, parameters, beanDataSource);
                  JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
@@ -438,6 +422,10 @@ public class OrderReportService {
 	public HttpServletResponse generateReceipt(HttpServletResponse response,long idUser)throws IOException, JRException {
 		restTemplate = new RestTemplate();
 		
+		File currDir = new File(".");
+	 	String path = currDir.getAbsolutePath();
+	 	path = path.substring(0, path.length()-1);
+	 	path = path+reportsDirName;
 		jrxmlFiles[0] = "order_receip";
 		jrxmlFiles[1] = "orderDetail_subreceip";
 		
@@ -506,13 +494,13 @@ public class OrderReportService {
          FileInputStream mainReportFile = null;
       
          boolean result = false;
-         String jdn = "src/main/resources/";
+         String jdn = path;
          String s,o;
          File outf;
          
              for (String rep: jrxmlFiles){
             	 System.out.println("MMMMX");
-                 s = reportsDirName+"/"+rep+".jrxml";
+                 s = path+"/"+rep+".jrxml";
                  o = jdn+"/"+rep+".jasper";
                  System.out.println("XXXXXX");
                  JasperCompileManager.compileReportToFile(s, o);
@@ -528,10 +516,10 @@ public class OrderReportService {
          //import net.sf.jasperreports.engine.design.JasperDesign mainDesign = JRXmlLoader.load("/path/to/jrxml");
          //JasperReport mainReportFile = JasperCompileManager.compileReport(mainDesign);
              System.out.println("MAAAAAAAAAR");
-                 String ss = "src/main/resources/"+"/"+jrxmlFiles[0]+".jasper";
+                 String ss = path+"/"+jrxmlFiles[0]+".jasper";
                  mainReportFile = new FileInputStream(ss);
                  //pass directory with jasper-files as parameters
-                 parameters.put("SUBREPORT_DIR", "src/main/resources/"+"/");
+                 parameters.put("SUBREPORT_DIR", path+"/");
                  //Fill report and view report.
                  jasperPrint = JasperFillManager.fillReport(mainReportFile, parameters, beanDataSource);
                  JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());

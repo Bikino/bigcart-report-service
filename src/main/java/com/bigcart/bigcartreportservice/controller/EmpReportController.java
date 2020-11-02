@@ -1,6 +1,7 @@
 package com.bigcart.bigcartreportservice.controller;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,5 +35,6 @@ public class EmpReportController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
 	}
 }

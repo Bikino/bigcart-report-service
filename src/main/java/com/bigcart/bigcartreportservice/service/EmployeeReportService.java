@@ -1,5 +1,6 @@
 package com.bigcart.bigcartreportservice.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +39,11 @@ public class EmployeeReportService  {
 
 	public HttpServletResponse generateReport(HttpServletResponse response)throws IOException, JRException {
 		restTemplate = new RestTemplate();
+		
+		File currDir = new File(".");
+    	String path = currDir.getAbsolutePath();
+    	path = path.substring(0, path.length()-1);
+		
 		ResponseEntity<List<EmployeeDTO>>  resp = restTemplate.exchange("http://localhost:9988/employee/",
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<EmployeeDTO>>() {});
 List<EmployeeDTO> data = resp.getBody();
@@ -55,10 +61,10 @@ for(int i = 0;i<data.size();i++) {
        // String resp = restTemplate.exchange("http://student-service/getStudentDetailsForSchool/{schoolname}",
                               //  HttpMethod.GET, null, new ParameterizedTypeReference<String>() {}, schoolname).getBody();
 
-			String reportPath = System.getProperty("user.dir")+"/src/main/resources/";
+			String reportPath = path+"src/main/resources/";
 
 			// Compile the Jasper report from .jrxml to .japser
-			JasperReport jasperReport = JasperCompileManager.compileReport(reportPath+"employee-rpt.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport( reportPath+"employee-rpt.jrxml");
 
 			// Get your data source
 			JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(empList);
@@ -91,6 +97,9 @@ for(int i = 0;i<data.size();i++) {
 
 	
 	public HttpServletResponse generateReportByVendor(HttpServletResponse response)throws IOException, JRException {
+		File currDir = new File(".");
+    	String path = currDir.getAbsolutePath();
+    	path = path.substring(0, path.length()-1);
 		restTemplate = new RestTemplate();
 		ResponseEntity<List<EmployeeDTO>>  resp = restTemplate.exchange("http://localhost:9988/employee/",
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<EmployeeDTO>>() {});
@@ -102,7 +111,14 @@ for(int i = 0;i<data.size();i++) {
 	Employee n = new Employee(d.getId(),d.getFirstName(),d.getLastName(), d.getEmail(), d.getSalary());
 	empList .add(n);
 }
-			String reportPath = System.getProperty("user.dir")+"/src/main/resources/";
+
+	//  prodList = Arrays.asList(
+			//new Product(1, "Youssoupha",1, "Mar", "Front-end Developer", true));
+
+       // String resp = restTemplate.exchange("http://student-service/getStudentDetailsForSchool/{schoolname}",
+                              //  HttpMethod.GET, null, new ParameterizedTypeReference<String>() {}, schoolname).getBody();
+
+			String reportPath = path+"/src/main/resources/";
 
 			// Compile the Jasper report from .jrxml to .japser
 			JasperReport jasperReport = JasperCompileManager.compileReport(reportPath+"employee-rpt.jrxml");
@@ -119,6 +135,10 @@ for(int i = 0;i<data.size();i++) {
 			// Fill the report
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,
 					jrBeanCollectionDataSource);
+
+			// Export the report to a PDF file
+			//JasperExportManager.exportReportToPdfFile(jasperPrint,reportPath+"/Emp-Rpt.pdf");
+			
 			JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
 			
 			
