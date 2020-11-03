@@ -2,6 +2,9 @@ package com.bigcart.bigcartreportservice.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,11 +42,6 @@ public class EmployeeReportService  {
 
 	public HttpServletResponse generateReport(HttpServletResponse response)throws IOException, JRException {
 		restTemplate = new RestTemplate();
-		
-		File currDir = new File(".");
-    	String path = currDir.getAbsolutePath();
-    	path = path.substring(0, path.length()-1);
-		
 		ResponseEntity<List<EmployeeDTO>>  resp = restTemplate.exchange("http://localhost:9988/employee/",
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<EmployeeDTO>>() {});
 List<EmployeeDTO> data = resp.getBody();
@@ -61,10 +59,21 @@ for(int i = 0;i<data.size();i++) {
        // String resp = restTemplate.exchange("http://student-service/getStudentDetailsForSchool/{schoolname}",
                               //  HttpMethod.GET, null, new ParameterizedTypeReference<String>() {}, schoolname).getBody();
 
-			String reportPath = path+"src/main/resources/";
+
+URL res = getClass().getClassLoader().getResource("conf.txt");
+File file = null;
+try {
+	file = Paths.get(res.toURI()).toFile();
+} catch (URISyntaxException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+String path = file.getAbsolutePath();
+path = path.substring(0,path.length()-8);
+String reportPath = path;
 
 			// Compile the Jasper report from .jrxml to .japser
-			JasperReport jasperReport = JasperCompileManager.compileReport( reportPath+"employee-rpt.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(reportPath+"employee-rpt.jrxml");
 
 			// Get your data source
 			JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(empList);
@@ -97,9 +106,6 @@ for(int i = 0;i<data.size();i++) {
 
 	
 	public HttpServletResponse generateReportByVendor(HttpServletResponse response)throws IOException, JRException {
-		File currDir = new File(".");
-    	String path = currDir.getAbsolutePath();
-    	path = path.substring(0, path.length()-1);
 		restTemplate = new RestTemplate();
 		ResponseEntity<List<EmployeeDTO>>  resp = restTemplate.exchange("http://localhost:9988/employee/",
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<EmployeeDTO>>() {});
@@ -118,7 +124,11 @@ for(int i = 0;i<data.size();i++) {
        // String resp = restTemplate.exchange("http://student-service/getStudentDetailsForSchool/{schoolname}",
                               //  HttpMethod.GET, null, new ParameterizedTypeReference<String>() {}, schoolname).getBody();
 
-			String reportPath = path+"/src/main/resources/";
+
+ClassLoader classLoader = getClass().getClassLoader();
+String path  = classLoader.getResource("conf.txt").getPath();
+path = path.substring(0,path.length()-8);
+String reportPath = path;
 
 			// Compile the Jasper report from .jrxml to .japser
 			JasperReport jasperReport = JasperCompileManager.compileReport(reportPath+"employee-rpt.jrxml");

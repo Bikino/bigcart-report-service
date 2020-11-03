@@ -2,6 +2,9 @@ package com.bigcart.bigcartreportservice.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -39,9 +42,7 @@ public class ProductReportService  {
 	
 
 	public HttpServletResponse generateReport(HttpServletResponse response)throws IOException, JRException {
-		File currDir = new File(".");
-    	String path = currDir.getAbsolutePath();
-    	path = path.substring(0, path.length()-1);
+
 	 restTemplate = new RestTemplate();
 	ResponseEntity<List<Product>>  resp = restTemplate.exchange("http://localhost:8001/product/",
                              HttpMethod.GET, null, new ParameterizedTypeReference<List<Product>>() {});
@@ -51,7 +52,18 @@ public class ProductReportService  {
 				//  prodList = Arrays.asList(
 						//new Product(1, "Youssoupha",1, "Mar", "Front-end Developer", true));
 		prodList =resp.getBody();
-		String reportPath = path+"src/main/resources/";
+
+		URL res = getClass().getClassLoader().getResource("conf.txt");
+		File file = null;
+		try {
+			file = Paths.get(res.toURI()).toFile();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String path = file.getAbsolutePath();
+		path = path.substring(0,path.length()-8);
+		String reportPath = path;
 			// Compile the Jasper report from .jrxml to .japser
 			JasperReport jasperReport = JasperCompileManager.compileReport(reportPath+"product-rpt.jrxml");
 
