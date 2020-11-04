@@ -3,7 +3,9 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="createdBy" class="java.lang.String"/>
+		<parameter name="Source" class="java.lang.String">
+	<defaultValueExpression><![CDATA["src/main/resources/"]]></defaultValueExpression>
+	</parameter>
 	<field name="productId" class="java.lang.Integer"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="categoryId" class="java.lang.Integer"/>
@@ -19,9 +21,16 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="42" splitType="Stretch">
+		<band height="60" splitType="Stretch">
+		 <image>
+		<reportElement x="3" y="0" width="58" height="40"/>
+		<imageExpression class="java.lang.String">
+		<![CDATA[$P{Source}+"nn.png"]]>
+		</imageExpression>
+		</image>
+		
 			<staticText>
-				<reportElement x="84" y="0" width="481" height="42"/>
+				<reportElement x="94" y="0" width="481" height="52" mode="Opaque" forecolor="white" backcolor="rgba(116, 184, 95, 0.62352943)" />
 				<textElement textAlignment="Center">
 					<font size="20" isBold="true"/>
 				</textElement>
@@ -115,16 +124,7 @@
 				</textElement>
 				<text><![CDATA[IsApproved]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="606" y="21" width="99" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$P{createdBy}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="550" y="21" width="68" height="20"/>
-				<textElement/>
-				<text><![CDATA[Created By:]]></text>
-			</staticText>
+		
 		</band>
 	</columnHeader>
 	<detail>

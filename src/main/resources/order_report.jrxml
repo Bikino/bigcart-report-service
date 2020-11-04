@@ -33,12 +33,21 @@
 	<background>
 		<band splitType="Stretch"/>
 	</background>
+	
 		<title>
-		<band height="42" splitType="Stretch">
+		<band height="50" splitType="Stretch">
+		 <image>
+<reportElement x="3" y="0" width="48" height="40"/>
+<imageExpression class="java.lang.String">
+<![CDATA[$P{SUBREPORT_DIR}+"nn.png"]]>
+</imageExpression>
+</image>
+
+
 			<staticText>
-				<reportElement x="84" y="0" width="481" height="42"/>
+				<reportElement x="95" y="0" width="481" height="42" mode="Opaque" forecolor="white" backcolor="rgba(116, 184, 95, 0.62352943)"/>
 				<textElement textAlignment="Center">
-					<font size="20" isBold="true"/>
+					<font size="25" isBold="true"  />
 				</textElement>
 				<text><![CDATA[List of Orders]]></text>
 			</staticText>
@@ -210,7 +219,7 @@
 				<textFieldExpression><![CDATA[$F{creationDate}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="65" y="24" width="555" height="43" uuid="1bc6036c-0521-4739-b8c2-6df9a2d04332"/>
+				<reportElement x="65" y="24" width="600" height="43" uuid="1bc6036c-0521-4739-b8c2-6df9a2d04332"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{orderDetails})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "orderDetail_subreport.jasper"]]></subreportExpression>
 			</subreport>

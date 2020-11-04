@@ -191,7 +191,7 @@ public class OrderReportService {
                  //Fill report and view report.
                  jasperPrint = JasperFillManager.fillReport(mainReportFile, parameters, beanDataSource);
                  JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
-                 JasperViewer.viewReport(jasperPrint);
+                // JasperViewer.viewReport(jasperPrint);
                  response.setContentType("application/pdf");
      			response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
      			 
@@ -297,7 +297,7 @@ public class OrderReportService {
                  //Fill report and view report.
                  jasperPrint = JasperFillManager.fillReport(mainReportFile, parameters, beanDataSource);
                  JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
-                 JasperViewer.viewReport(jasperPrint);
+                // JasperViewer.viewReport(jasperPrint);
                  response.setContentType("application/pdf");
      			response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
      			 
@@ -444,7 +444,7 @@ public class OrderReportService {
                  //Fill report and view report.
                  jasperPrint = JasperFillManager.fillReport(mainReportFile, parameters, beanDataSource);
                  JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
-                 JasperViewer.viewReport(jasperPrint);
+                // JasperViewer.viewReport(jasperPrint);
                  response.setContentType("application/pdf");
      			response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
      			 
@@ -553,7 +553,7 @@ public class OrderReportService {
                  //Fill report and view report.
                  jasperPrint = JasperFillManager.fillReport(mainReportFile, parameters, beanDataSource);
                  JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
-                 JasperViewer.viewReport(jasperPrint);
+                 //JasperViewer.viewReport(jasperPrint);
                  response.setContentType("application/pdf");
      			response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
      			 
